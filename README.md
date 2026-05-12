@@ -3,7 +3,7 @@
 A web-based application that leverages the power of Google's Gemini AI to generate comprehensive, well-formatted summaries of any YouTube video instantly. 
 
 Built with a lightweight Python Flask backend and a modern, responsive frontend, this project is fully containerized and ready for deployment on Google Cloud Run.
-You can test the YouTube Summarizer Web-app here - [YouTube Summarizer](https://youtube-summarizer-725061983288.us-central1.run.app/)
+You can test the YouTube Summarizer Web-app here - [YouTube Summarizer](https://youtube-summarizer-app-725061983288.us-central1.run.app/)
 
 ![App Interface](https://github.com/Htet-Khant-Linn/gemini-powered-youtube-summarizer/blob/32a277e7bb05a776da99d319d0fab8b71fbc6abe/files/app-interface.png)
 
