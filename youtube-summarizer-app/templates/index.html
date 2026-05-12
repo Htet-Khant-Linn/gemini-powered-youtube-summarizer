@@ -167,7 +167,6 @@
             color: var(--text-main);
         }
         
-        /* Stylize the markdown output specifically */
         .result-content p { margin-top: 0; }
         .result-content ul, .result-content ol { padding-left: 20px; }
         .result-content li { margin-bottom: 8px; }
@@ -238,8 +237,15 @@
 
                 const summaryText = await response.text();
 
-                // Use marked.js to convert the text to formatted HTML
-                resultContent.innerHTML = marked.parse(summaryText);
+                // Safety check: Verify marked library is ready before parsing
+                if (typeof marked !== 'undefined') {
+                    resultContent.innerHTML = marked.parse(summaryText);
+                } else {
+                    // Fallback to plain text if CDN is slow
+                    resultContent.style.whiteSpace = "pre-wrap";
+                    resultContent.textContent = summaryText;
+                }
+                
                 resultContainer.style.display = 'block';
 
             } catch (error) {
