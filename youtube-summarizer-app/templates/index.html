@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Summarizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --background: linear-gradient(135deg, #f0fdf4 0%, #e0e7ff 100%);
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 650px;
+        }
+
+        .container {
+            background-color: var(--surface);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            margin: 0 0 5px 0;
+            color: var(--text-main);
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            display: none;
+            text-align: left;
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            color: var(--text-main);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-content {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-main);
+        }
+        
+        /* Stylize the markdown output specifically */
+        .result-content p { margin-top: 0; }
+        .result-content ul, .result-content ol { padding-left: 20px; }
+        .result-content li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="container">
+            
+            <div class="header">
+                <h1>YouTube Summarizer</h1>
+                <p class="subtitle">Developed by Htet Khant Linn</p>
+                <span class="badge">No Sign-in Required</span>
+            </div>
+
+            <form id="summary-form">
+                <div class="form-group">
+                    <label for="youtube_link">Video URL</label>
+                    <input type="text" id="youtube_link" name="youtube_link" placeholder="Paste your YouTube link here..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="model">AI Model</label>
+                    <select id="model" name="model">
+                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional_prompt">Custom Instructions (Optional)</label>
+                    <textarea id="additional_prompt" name="additional_prompt" placeholder="E.g., Explain this to me like I am five years old, or summarize in 3 bullet points..."></textarea>
+                </div>
+
+                <button type="submit" id="submit-btn">Generate Summary</button>
+            </form>
+
+            <div class="result-container" id="result-container">
+                <h3 class="result-title">📝 Video Summary</h3>
+                <div class="result-content" id="result-content"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('summary-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const button = document.getElementById('submit-btn');
+            const resultContainer = document.getElementById('result-container');
+            const resultContent = document.getElementById('result-content');
+
+            button.disabled = true;
+            button.textContent = 'Summarizing... Please wait ⏳';
+            resultContainer.style.display = 'none';
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned status: ${response.status}`);
+                }
+
+                const summaryText = await response.text();
+
+                // Use marked.js to convert the text to formatted HTML
+                resultContent.innerHTML = marked.parse(summaryText);
+                resultContainer.style.display = 'block';
+
+            } catch (error) {
+                resultContent.innerHTML = `<p style="color: red;">Oops! Something went wrong: ${error.message}</p>`;
+                resultContainer.style.display = 'block';
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Generate Summary';
+            }
+        });
+    </script>
+
+</body>
+</html>
