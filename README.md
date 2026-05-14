@@ -1,4 +1,4 @@
-# 🎥 Gemini-Powered YouTube Summarizer
+# Gemini-Powered YouTube Summarizer
 
 A web-based application that leverages the power of Google's Gemini AI to generate comprehensive, well-formatted summaries of any YouTube video instantly. 
 
@@ -12,7 +12,7 @@ You can test the YouTube Summarizer Web-app here - [YouTube Summarizer](https://
 ![Test_Page1](https://github.com/Htet-Khant-Linn/gemini-powered-youtube-summarizer/blob/b8018fcad3c0c92b03532fc75498cf349a2d470d/files/testing_1.png)
 
 ![Test_Page2](https://github.com/Htet-Khant-Linn/gemini-powered-youtube-summarizer/blob/b8018fcad3c0c92b03532fc75498cf349a2d470d/files/testing_2.png)
-## ✨ Features
+## Features
 
 - **Instant AI Summarization:** Extracts and condenses key information from YouTube videos using the Gemini 2.5 Flash model.
 - **Custom Instructions:** Allows users to pass custom prompts (e.g., "Explain like I'm 5", "Summarize in 3 bullet points") to tailor the output.
@@ -21,14 +21,14 @@ You can test the YouTube Summarizer Web-app here - [YouTube Summarizer](https://
 - **Secure Setup:** Uses environment variables to protect Google Cloud Project IDs during local development.
 - **Serverless Deployment:** Configured for seamless deployment to Google Cloud Run.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** Python, Flask
 - **AI Integration:** Google GenAI SDK (`google-genai`), Vertex AI
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript, Marked.js
 - **Deployment:** Google Cloud Run, Google Cloud CLI
 
-## 🚀 Local Development Setup
+## Local Development Setup
 
 ### Prerequisites
 
@@ -113,7 +113,7 @@ Follow the interactive prompts:
 
 Once complete, the CLI will output your live, secure `https://` URL!
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── templates/
@@ -125,7 +125,7 @@ Once complete, the CLI will output your live, secure `https://` URL!
 └── README.md              # Project documentation
 ```
 
-## 👨‍💻 Author
+## Author
 
 **Htet Khant Linn**
 
